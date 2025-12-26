@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Demande d'amour éternel</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Georgia", serif;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(180deg, #ffffff, #ffe6f0);
+}
+
+/* Fond petits cœurs */
+body::before {
+    content: "💗 💕 💗 💕 💗 💕";
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    font-size: 30px;
+    opacity: 0.25;
+    line-height: 70px;
+    pointer-events: none;
+}
+
+/* Contenu principal */
+.container {
+    position: relative;
+    z-index: 2;
+    margin-top: 70px;
+}
+
+/* Cœur battant */
+.big-heart {
+    font-size: 130px;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+/* Textes */
+.text {
+    color: hotpink;
+    font-size: 30px;
+    margin: 15px;
+    text-shadow: 0 0 8px pink;
+}
+
+.signature {
+    color: deeppink;
+    font-size: 22px;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+/* Boutons */
+button {
+    background: linear-gradient(45deg, pink, hotpink);
+    border: none;
+    border-radius: 30px;
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255,105,180,0.5);
+}
+
+button:hover {
+    transform: scale(1.08);
+}
+
+/* Résultat */
+.result {
+    font-size: 160px;
+    margin-top: 90px;
+    display: none;
+    cursor: pointer;
+    animation: glow 2s infinite;
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 10px pink; }
+    50% { text-shadow: 0 0 25px hotpink; }
+    100% { text-shadow: 0 0 10px pink; }
+}
+
+/* Texte final */
+.final-text {
+    color: hotpink;
+    font-size: 26px;
+    margin-top: 20px;
+    text-shadow: 0 0 6px pink;
+    display: none;
+}
+
+/* Confettis cœurs */
+.confetti {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    background: pink;
+    transform: rotate(45deg);
+    top: -10px;
+    animation: fall linear infinite;
+    z-index: 1;
+}
+
+.confetti::before,
+.confetti::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: pink;
+    border-radius: 50%;
+}
+
+.confetti::before { top: -6px; left: 0; }
+.confetti::after { left: -6px; top: 0; }
+
+@keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Feu d'artifice */
+.firework {
+    position: fixed;
+    font-size: 24px;
+    animation: explode 1.5s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) scale(1.5);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="content">
+    <div class="big-heart">❤️</div>
+    <div class="text">Johana, mon amour,<br>veux-tu m'épouser ?</div>
+    <div class="signature">Ta Céline d'amour</div>
+    <button onclick="showRing()">Oh oui ma belle Céline</button>
+    <button onclick="showLips()">Je te dis oui pour la vie Céline</button>
+</div>
+
+<div id="ring" class="result" onclick="goBack()">💍</div>
+<div id="lips" class="result" onclick="goBack()">💋</div>
+
+<div id="finalText" class="final-text">
+    Elle a dit oui, ma belle Johana va être ma femme,<br>
+    je suis une Céline toute heureuse 💖
+</div>
+
+<script>
+/* Confettis */
+for (let i = 0; i < 80; i++) {
+    let c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(c);
+}
+
+let fireworkInterval;
+
+function launchFireworks() {
+    fireworkInterval = setInterval(() => {
+        for (let i = 0; i < 15; i++) {
+            let fw = document.createElement("div");
+            fw.className = "firework";
+            fw.textContent = "💖";
+            fw.style.left = "50vw";
+            fw.style.top = "50vh";
+            fw.style.setProperty("--x", (Math.random()*400-200) + "px");
+            fw.style.setProperty("--y", (Math.random()*400-200) + "px");
+            document.body.appendChild(fw);
+            setTimeout(() => fw.remove(), 1500);
+        }
+    }, 800);
+}
+
+function stopFireworks() {
+    clearInterval(fireworkInterval);
+}
+
+function hideAll() {
+    content.style.display = "none";
+    ring.style.display = "none";
+    lips.style.display = "none";
+    finalText.style.display = "none";
+}
+
+function showRing() {
+    hideAll();
+    ring.style.display = "block";
+    finalText.style.display = "block";
+    launchFireworks();
+}
+
+function showLips() {
+    hideAll();
+    lips.style.display = "block";
+    finalText.style.display = "block";
+    launchFireworks();
+}
+
+function goBack() {
+    stopFireworks();
+    content.style.display = "block";
+    ring.style.display = "none";
+    lips.style.display = "none";
+    finalText.style.display = "none";
+}
+</script>
+
+</body>
+</html>
